@@ -1,0 +1,32 @@
+{
+  "assignment":
+  {
+    "osTypes":
+    [
+      {
+        "osShortName": "DEBIAN"
+      },
+      {
+        "osShortName": "UBUNTU"
+      }
+    ]
+  },
+  "recipes":
+  [
+    {
+      "name": "agent-deploy-prisma-linux-mypolicyid",
+      "version": "1.0",
+      "desiredState": "INSTALLED",
+      "installSteps":
+      [
+        {
+          "scriptRun":
+          {
+            "interpreter": "SHELL",
+            "script": "AUTH_TOKEN=$(gcloud secrets versions access latest --secret=host-defender-gcp-secure-deployment);curl -o defender.sh -sSL -k --header \"authorization: Bearer ${AUTH_TOKEN}\" -X POST  https://35.238.183.55:8083/api/v1/scripts/defender.sh;sudo bash defender.sh -a https://35.238.183.55:8083/us-3-159237196 -c 35.238.183.55:8083 -h \"Bearer ${AUTH_TOKEN}\" --install-host"
+          }
+        }
+      ]
+    }
+  ]
+}
